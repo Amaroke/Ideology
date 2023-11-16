@@ -7,16 +7,19 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import amaroke.ideology.auth.JwtUtil;
-import amaroke.ideology.models.User;
-import amaroke.ideology.models.requests.LoginReq;
-import amaroke.ideology.models.responses.ErrorRes;
-import amaroke.ideology.models.responses.LoginRes;
+import amaroke.ideology.models.dto.requests.LoginReq;
+import amaroke.ideology.models.dto.responses.ErrorRes;
+import amaroke.ideology.models.dto.responses.LoginRes;
+import amaroke.ideology.models.entities.UserEntity;
 
 @Controller
-@RequestMapping("/rest/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -26,18 +29,16 @@ public class AuthController {
     public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-
     }
 
     @ResponseBody
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginReq loginReq) {
         try {
-            System.out.println(loginReq.getEmail() + " " + loginReq.getPassword());
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
             String email = authentication.getName();
-            User user = new User(email, "");
+            UserEntity user = UserEntity.builder().email(email).build();
             String token = jwtUtil.createToken(user);
             LoginRes loginRes = new LoginRes(email, token);
 

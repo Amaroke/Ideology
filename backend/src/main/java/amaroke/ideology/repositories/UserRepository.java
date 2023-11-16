@@ -1,19 +1,20 @@
 package amaroke.ideology.repositories;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import amaroke.ideology.models.User;
+import amaroke.ideology.models.entities.UserEntity;
 
 @Repository
-public class UserRepository {
-    public User findUserByEmail(String email) {
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+
+    public default UserEntity findUserByEmail(String email) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-        // Générez un mot de passe haché pour l'exemple
         String encodedPassword = bCryptPasswordEncoder.encode("123456");
 
-        User user = new User(email, encodedPassword);
+        UserEntity user = UserEntity.builder().email(email).password(encodedPassword).build();
         user.setFirstName("FirstName");
         user.setLastName("LastName");
         return user;
