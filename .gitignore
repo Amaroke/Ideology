@@ -1,1 +1,3 @@
 .vscode
+backend/db.lock.db
+backend/db.mv.db
