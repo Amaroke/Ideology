@@ -1,0 +1,21 @@
+// Navbar.js
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+
+const Navbar = () => {
+    return (
+        <nav className="bg-gray-800 p-4">
+            <div className="container mx-auto flex justify-between items-center">
+                <div className="text-white font-bold text-xl">Ideology</div>
+                <ul className="flex space-x-4">
+                    <li><Link to="/login" className="text-white">Connexion</Link></li>
+                    <li><Link to="/register" className="text-white">Inscription</Link></li>
+                    <li><Link to="/forgot-password" className="text-white">Mot de passe oublié</Link></li>
+                </ul>
+            </div>
+        </nav>
+    );
+};
+
+export default Navbar;

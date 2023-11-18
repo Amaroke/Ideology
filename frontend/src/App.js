@@ -39,6 +39,7 @@ function App() {
             path="/forgot-password"
             element={<PrivateRoute element={<ForgotPassword />} />}
           />
+          <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </Router>
     </div>
