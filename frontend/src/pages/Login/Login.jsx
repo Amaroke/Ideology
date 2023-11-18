@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import "./Login.css";
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import AuthenticationService from "../../services/AuthenticationService";
 
 const Login = () => {
+
+    const naviguate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -30,11 +36,20 @@ const Login = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
-            console.log("Form submitted:", formData);
+            try {
+                const response = await AuthenticationService.login(formData);
+
+                const cookieDuration = document.getElementById('remember').checked ? { expires: 365 } : {};
+                Cookies.set('jwtToken', response.token, { secure: true, sameSite: 'strict', ...cookieDuration });
+
+                naviguate('/home');
+            } catch (error) {
+                setErrors({ general: 'Authentication failed. Please check your credentials.' });
+            }
         }
     };
 
@@ -92,9 +107,11 @@ const Login = () => {
                             >
                                 Log in
                             </button>
+                            {errors.general && <p className="text-red-500 text-sm">{errors.general}</p>}
                             <p className="text-sm font-light text-gray-400 text-center">
                                 Don’t have an account yet? <Link to="/register" className="font-medium text-primary-500 hover:underline">Register</Link>
                             </p>
+                            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
                         </form>
                     </div>
                 </div>

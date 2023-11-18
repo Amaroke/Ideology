@@ -2,22 +2,43 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Routes,
-  Route
+  Route,
+  Navigate
 } from "react-router-dom";
-import Login from './components/Login/Login';
-import Register from './components/Register/Register';
-import Home from './components/Home/Home';
-import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
+import Home from './pages/Home/Home';
+import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
+import Cookies from 'js-cookie';
 
 function App() {
+  const isAuthenticated = Cookies.get('jwtToken') !== undefined;
+
+  const PrivateRoute = ({ element }) => {
+    return !isAuthenticated ? (
+      element
+    ) : (
+      <Navigate to="/home" replace />
+    );
+  };
+
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/home" element={<Home />} />
+          <Route
+            path="/login"
+            element={<PrivateRoute element={<Login />} />}
+          />
+          <Route
+            path="/register"
+            element={<PrivateRoute element={<Register />} />}
+          />
+          <Route
+            path="/forgot-password"
+            element={<PrivateRoute element={<ForgotPassword />} />}
+          />
         </Routes>
       </Router>
     </div>
