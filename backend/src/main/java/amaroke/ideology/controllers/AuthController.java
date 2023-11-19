@@ -31,13 +31,13 @@ public class AuthController {
 
     @ResponseBody
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthReq authReq, @RequestBody Integer duration) {
+    public ResponseEntity<?> login(@RequestBody AuthReq authReq) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authReq.getEmail(), authReq.getPassword()));
             String email = authentication.getName();
             UserEntity user = UserEntity.builder().email(email).build();
-            String token = jwtUtil.createToken(user, duration);
+            String token = jwtUtil.createToken(user, authReq.getDuration());
             LoginRes loginRes = new LoginRes(email, token);
             return ResponseEntity.ok(loginRes);
         } catch (BadCredentialsException e) {

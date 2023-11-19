@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class JwtUtil {
 
-    private final String secret_key = "mysecretkey";
+    private final String secret_key = "testtest";
 
     private final JwtParser jwtParser;
 

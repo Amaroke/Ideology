@@ -15,4 +15,7 @@ public class AuthReq {
     @JsonProperty("password")
     private String password;
 
+    @JsonProperty("duration")
+    private int duration;
+
 }
