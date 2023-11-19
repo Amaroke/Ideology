@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import "./Register.css";
 import { Link } from 'react-router-dom';
+import AuthenticationService from "../../services/AuthenticationService";
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Register = () => {
+
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -50,11 +56,19 @@ const Register = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (validateForm()) {
-            console.log("Form submitted:", formData);
+            try {
+                const response = await AuthenticationService.register(formData);
+
+                Cookies.set('jwtToken', response.token, { secure: true, sameSite: 'strict' });
+
+                navigate('/home');
+            } catch (error) {
+                setErrors({ general: 'Registration failed. Please check your informations.' });
+            }
         }
     };
 
@@ -115,6 +129,7 @@ const Register = () => {
                             >
                                 Register
                             </button>
+                            {errors.general && <p className="text-red-500 text-sm">{errors.general}</p>}
                             <p className="text-sm font-light text-gray-400 text-center">
                                 Already have an account ? <Link to="/login" className="font-medium text-primary-500 hover:underline ">Log in</Link>
                             </p>

@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit;
 public class JwtUtil {
 
     private final String secret_key = "mysecretkey";
-    private long accessTokenValidity = 60 * 60 * 1000;
 
     private final JwtParser jwtParser;
 
@@ -25,10 +24,8 @@ public class JwtUtil {
         this.jwtParser = Jwts.parser().setSigningKey(secret_key);
     }
 
-    public String createToken(UserEntity user) {
+    public String createToken(UserEntity user, int accessTokenValidity) {
         Claims claims = Jwts.claims().setSubject(user.getEmail());
-        claims.put("firstName", user.getFirstName());
-        claims.put("lastName", user.getLastName());
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         return Jwts.builder()

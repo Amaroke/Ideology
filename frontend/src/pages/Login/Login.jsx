@@ -7,7 +7,7 @@ import AuthenticationService from "../../services/AuthenticationService";
 
 const Login = () => {
 
-    const naviguate = useNavigate();
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         email: "",
@@ -41,12 +41,14 @@ const Login = () => {
 
         if (validateForm()) {
             try {
-                const response = await AuthenticationService.login(formData);
+                
+
+                const response = await AuthenticationService.login(formData, document.getElementById('remember').checked ? 365 * 24 * 60 * 60 * 1000 : 60 * 60 * 1000);
 
                 const cookieDuration = document.getElementById('remember').checked ? { expires: 365 } : {};
                 Cookies.set('jwtToken', response.token, { secure: true, sameSite: 'strict', ...cookieDuration });
 
-                naviguate('/home');
+                navigate('/home');
             } catch (error) {
                 setErrors({ general: 'Authentication failed. Please check your credentials.' });
             }

@@ -12,10 +12,9 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword';
 import Cookies from 'js-cookie';
 
 function App() {
-  const isAuthenticated = Cookies.get('jwtToken') !== undefined;
 
   const PrivateRoute = ({ element }) => {
-    return !isAuthenticated ? (
+    return Cookies.get('jwtToken') == undefined ? (
       element
     ) : (
       <Navigate to="/home" replace />

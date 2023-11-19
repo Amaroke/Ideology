@@ -1,11 +1,18 @@
 import axios from 'axios';
 
 const AuthenticationService = {
-    login: async (formData) => {
+    login: async (formData, cookieDuration) => {
         try {
-            // const response = await axios.post('http://localhost:3000/login', formData);
-            // return response.data;
-            return { token: 'yourSimulatedJWTToken' };
+            const response = await axios.post('http://localhost:8080/login', formData, cookieDuration);
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
+    register: async (formData) => {
+        try {
+            const response = await axios.post('http://localhost:8080/register', formData);
+            return response.data;
         } catch (error) {
             throw error;
         }

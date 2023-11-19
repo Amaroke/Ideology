@@ -1,13 +1,13 @@
 package amaroke.ideology.services;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 import amaroke.ideology.repositories.UserRepository;
-import amaroke.ideology.models.dto.requests.UserReq;
-import amaroke.ideology.models.dto.responses.UserRes;
+import amaroke.ideology.models.dto.requests.AuthReq;
 import amaroke.ideology.models.entities.UserEntity;
 
 @Service
@@ -20,10 +20,12 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public UserRes createUser(UserReq userReq) {
-        UserEntity user = UserEntity.builder().email(userReq.getEmail()).password(userReq.getPassword())
-                .firstName(userReq.getFirstName()).lastName(userReq.getLastName()).build();
+    public UserEntity createUser(AuthReq userReq) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        UserEntity user = UserEntity.builder().email(userReq.getEmail()).password(encoder.encode(userReq.getPassword()))
+                .build();
         userRepository.save(user);
-        return new UserRes(user);
+
+        return user;
     }
 }
