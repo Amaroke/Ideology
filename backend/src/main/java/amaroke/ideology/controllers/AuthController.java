@@ -22,12 +22,12 @@ import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600) // TODO change to frontend url
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     @ResponseBody
     @PostMapping("/login")
@@ -68,6 +68,20 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         } catch (Exception e) {
             ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "Error while registering user");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody String email) {
+        try {
+
+            // TODO send email with reset link
+
+            return ResponseEntity.ok("Password reset successful");
+        } catch (Exception e) {
+            ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "Error while resetting password");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }

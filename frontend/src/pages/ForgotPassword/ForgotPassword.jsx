@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./ForgotPassword.css";
 import { Link } from 'react-router-dom';
+import AuthenticationService from "../../services/AuthenticationService";
 
 const ForgotPassword = () => {
     const [formData, setFormData] = useState({
@@ -8,6 +9,7 @@ const ForgotPassword = () => {
     });
 
     const [errors, setErrors] = useState({});
+    const [isResetLinkSent, setIsResetLinkSent] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,13 +34,17 @@ const ForgotPassword = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (validateForm()) {
-            console.log("Form submitted:", formData);
+        try {
+            if (validateForm()) {
+                await AuthenticationService.resetPassword(formData.email.toLowerCase());
+                setIsResetLinkSent(true);
+            }
+        } catch (error) {
+            console.error("Failed to send reset link");
         }
-    };
+    }
 
     return (
         <section className="background-image bg-cover bg-no-repeat">
@@ -48,34 +54,45 @@ const ForgotPassword = () => {
                         <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white text-center">
                             Find your account
                         </h1>
-                        <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-                            <div>
-                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">
-                                    Please enter your email to search for your account.</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className={`border sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white ${errors.email ? 'border-red-500' : ''}`}
-                                    placeholder="email@address.com"
-                                    required
-                                />
-                                {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-                            </div>
-                            <div className="flex space-x-4">
+                        {isResetLinkSent ? (
+                            <div className="flex flex-col space-y-4 md:space-y-6 items-center text-center">
+                                <p className="text-white text-sm ">
+                                    Reset link sent to your email. Please check your inbox.
+                                </p>
                                 <Link to="/login" className="w-1/2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                    Cancel
+                                    Go back to login
                                 </Link>
-                                <button
-                                    type="submit"
-                                    className="w-1/2 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                                >
-                                    Send
-                                </button>
                             </div>
-                        </form>
+                        ) : (
+                            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+                                <div>
+                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">
+                                        Please enter your email to search for your account.</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className={`border sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white ${errors.email ? 'border-red-500' : ''}`}
+                                        placeholder="email@address.com"
+                                        required
+                                    />
+                                    {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                                </div>
+                                <div className="flex space-x-4">
+                                    <Link to="/login" className="w-1/2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                        Cancel
+                                    </Link>
+                                    <button
+                                        type="submit"
+                                        className="w-1/2 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                    >
+                                        Send
+                                    </button>
+                                </div>
+                            </form>
+                        )}
                     </div>
                 </div>
             </div>

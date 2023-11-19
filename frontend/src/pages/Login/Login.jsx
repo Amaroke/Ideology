@@ -41,9 +41,12 @@ const Login = () => {
 
         if (validateForm()) {
             try {
-                
+                const formDataLower = {
+                    email: formData.email.toLowerCase(),
+                    password: formData.password,
+                };
 
-                const response = await AuthenticationService.login(formData, document.getElementById('remember').checked ? 365 * 24 * 60 * 60 * 1000 : 60 * 60 * 1000);
+                const response = await AuthenticationService.login(formDataLower, document.getElementById('remember').checked ? 365 * 24 * 60 * 60 * 1000 : 60 * 60 * 1000);
 
                 const cookieDuration = document.getElementById('remember').checked ? { expires: 365 } : {};
                 Cookies.set('jwtToken', response.token, { secure: true, sameSite: 'strict', ...cookieDuration });

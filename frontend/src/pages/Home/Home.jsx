@@ -1,15 +1,21 @@
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import Cookies from "js-cookie";
+import "./Home.css";
+import Question from "../../components/Question/Question";
 
 const Home = () => {
   return (
-    <div>
+    <section className="background-home h-screen">
       <Navbar />
-      <h1 className="text-white items-center text-center">
-        {Cookies.get("jwtToken")}
-      </h1>
-    </div>
+      <Question />
+      <Question />
+      <Question />
+      <Question />
+      <Question />
+      <Question />
+      <Question />
+      <Question />
+    </section >
   );
 };
 
