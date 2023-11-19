@@ -20,7 +20,14 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
+    public UserEntity getUserByEmail(String email) {
+        return this.userRepository.findUserByEmail(email);
+    }
+
     public UserEntity createUser(AuthReq userReq) {
+        if (this.getUserByEmail(userReq.getEmail()) != null) {
+            throw new IllegalArgumentException("User already exists");
+        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         UserEntity user = UserEntity.builder().email(userReq.getEmail()).password(encoder.encode(userReq.getPassword()))
                 .build();

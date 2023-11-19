@@ -14,7 +14,7 @@ import Cookies from 'js-cookie';
 function App() {
 
   const PrivateRoute = ({ element }) => {
-    return Cookies.get('jwtToken') == undefined ? (
+    return Cookies.get('jwtToken') === undefined ? (
       element
     ) : (
       <Navigate to="/home" replace />

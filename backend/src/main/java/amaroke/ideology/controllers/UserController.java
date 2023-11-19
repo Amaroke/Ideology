@@ -19,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public @ResponseBody List<UserRes> getAllSeries() {
+    public @ResponseBody List<UserRes> getAllUsers() {
         List<UserRes> users = this.userService.getAllUsers().stream().map(UserRes::new).toList();
         return users;
     }

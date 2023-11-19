@@ -44,7 +44,7 @@ public class AuthController {
             ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "Invalid username or password");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         } catch (Exception e) {
-            ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, e.getMessage());
+            ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "Error while logging in");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
@@ -60,11 +60,14 @@ public class AuthController {
             String token = jwtUtil.createToken(newUser, 60 * 60 * 1000);
             LoginRes loginRes = new LoginRes(email, token);
             return ResponseEntity.ok(loginRes);
+        } catch (IllegalArgumentException e) {
+            ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "User already exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         } catch (BadCredentialsException e) {
             ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "Invalid username or password");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         } catch (Exception e) {
-            ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, e.getMessage());
+            ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "Error while registering user");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
