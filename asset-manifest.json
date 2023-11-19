@@ -1,14 +1,15 @@
 {
   "files": {
-    "main.css": "/Ideology/static/css/main.762b41cb.css",
-    "main.js": "/Ideology/static/js/main.213c4c93.js",
+    "main.css": "/Ideology/static/css/main.e0cebeda.css",
+    "main.js": "/Ideology/static/js/main.c52b8ad8.js",
+    "static/media/home-background.svg": "/Ideology/static/media/home-background.521a10b5bf2ae5099f9f.svg",
     "static/media/authentication-background.svg": "/Ideology/static/media/authentication-background.01bf0450e8011a15cbc8.svg",
     "index.html": "/Ideology/index.html",
-    "main.762b41cb.css.map": "/Ideology/static/css/main.762b41cb.css.map",
-    "main.213c4c93.js.map": "/Ideology/static/js/main.213c4c93.js.map"
+    "main.e0cebeda.css.map": "/Ideology/static/css/main.e0cebeda.css.map",
+    "main.c52b8ad8.js.map": "/Ideology/static/js/main.c52b8ad8.js.map"
   },
   "entrypoints": [
-    "static/css/main.762b41cb.css",
-    "static/js/main.213c4c93.js"
+    "static/css/main.e0cebeda.css",
+    "static/js/main.c52b8ad8.js"
   ]
 }
