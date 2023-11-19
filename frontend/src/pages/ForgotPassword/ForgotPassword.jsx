@@ -47,7 +47,7 @@ const ForgotPassword = () => {
     }
 
     return (
-        <section className="background-image bg-cover bg-no-repeat">
+        <section className="background-image bg-cover bg-no-repeat min-h-screen">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <div className="w-full rounded-lg shadow border md:mt-0 sm:max-w-md xl:p-0 bg-gray-900 border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -56,7 +56,7 @@ const ForgotPassword = () => {
                         </h1>
                         {isResetLinkSent ? (
                             <div className="flex flex-col space-y-4 md:space-y-6 items-center text-center">
-                                <p className="text-white text-sm ">
+                                <p className="text-white text-sm">
                                     Reset link sent to your email. Please check your inbox.
                                 </p>
                                 <Link to="/login" className="w-1/2 text-white bg-gray-500 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
