@@ -12,7 +12,7 @@
     background-image: url('../../assets/img/home-background.svg');
     background-position: center;
     background-attachment: fixed;
-    animation: rotateColors 20s infinite linear;
+    animation: rotateColors 20s infinite alternate linear; /* Utilisation de 'alternate' pour faire des allers-retours */
     z-index: -10;
 }
 
@@ -21,6 +21,6 @@
         filter: hue-rotate(0deg) brightness(0.9) grayscale(0.2);
     }
     100% {
-        filter: hue-rotate(360deg) brightness(0.9) grayscale(0.2);
+        filter: hue-rotate(180deg) brightness(0.9) grayscale(0.2); /* Ajustez le degré de rotation selon vos préférences */
     }
 }

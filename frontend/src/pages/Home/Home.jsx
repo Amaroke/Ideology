@@ -5,7 +5,7 @@ import Question from "../../components/Question/Question";
 
 const Home = () => {
   return (
-    <section className="background-home h-screen">
+    <section className="background-home min-h-screen">
       <Navbar />
       <Question />
       <Question />
